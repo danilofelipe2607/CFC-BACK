@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const uploadConfig = require("./config/upload");
 const SessionController = require("./controllers/SessionController");
 const TesteController = require("./controllers/testeController");
+const AlunoController = require("./controllers/AlunoController");
 const UserSchema = require("./models/User");
 const routes = express.Router();
 const upload = multer(uploadConfig);
@@ -12,6 +13,7 @@ function verifyJWT(req, res, next) {
   const token = req.headers["authorization"]
     ? req.headers["authorization"].split(" ").pop()
     : null;
+  console.log(token);
   if (!token)
     return res.status(401).send({ auth: false, message: "No token provided." });
   jwt.verify(token, process.env.MYSECURITYTOKEN, function(err, decoded) {
@@ -36,4 +38,5 @@ routes.get("/test", TesteController.FuncaoTeste);
 // routes.post("/osfiltro", OsController.getFiltro);
 // routes.put("/os/:id", upload.single("thumbnail"), OsController.edit);
 
+routes.post("/api/aluno", verifyJWT, AlunoController.CreateAluno);
 module.exports = routes;

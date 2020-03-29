@@ -10,5 +10,5 @@ module.exports = new mongoose.Schema({
   senha: String,
   active: Boolean,
   cpf: Number
-});
+}, {collection: 'user'});
 
