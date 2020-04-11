@@ -31,27 +31,36 @@ module.exports = {
       email,
     } = req.body;
 
-    const Aluno = await req.mongoConnection.model("Aluno", AlunoSchema).create({
-      nome,
-      cpf,
-      rg,
-      DataNascimento,
-      endereco,
-      cidade,
-      estado,
-      setor,
-      type,
-      telefone,
-      celular,
-      senha,
-      active,
-      email,
-    });
+    const Aluno = await req.mongoConnection.model("Aluno", AlunoSchema);
+    const verificaCpf = await Aluno.find({ cpf: cpf });
 
-    res.json({
-      success: true,
-      data: await Aluno,
-    });
+    if (verificaCpf.length > 0) {
+      return res
+        .status(500)
+        .send({ erro: true, mensagem: "Cpf Já Cadastrado!" });
+    } else {
+      const alunoCadastrado = await Aluno.create({
+        nome,
+        cpf,
+        rg,
+        DataNascimento,
+        endereco,
+        cidade,
+        estado,
+        setor,
+        type,
+        telefone,
+        celular,
+        senha,
+        active,
+        email,
+      });
+
+      return res.json({
+        success: true,
+        data: alunoCadastrado,
+      });
+    }
   },
 
   ///delete aluno
