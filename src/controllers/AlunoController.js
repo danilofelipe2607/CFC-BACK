@@ -2,7 +2,18 @@ const AlunoSchema = require("../models/Aluno");
 const mongoose = require("mongoose");
 
 module.exports = {
-  //   //create post
+  //index(get)
+
+  async indexAluno(req, res) {
+    const Aluno = await req.mongoConnection.model("Aluno", AlunoSchema);
+    const result = await Aluno.find();
+
+    if (result) {
+      res.json(result);
+    }
+    res.json({ message: "not found" });
+  },
+  //   //crea,te post
   async CreateAluno(req, res) {
     const {
       nome,
@@ -18,10 +29,9 @@ module.exports = {
       celular,
       senha,
       active,
-      email
+      email,
     } = req.body;
 
-    console.log(nome, "nome");
     const Aluno = await req.mongoConnection.model("Aluno", AlunoSchema).create({
       nome,
       cpf,
@@ -36,12 +46,12 @@ module.exports = {
       celular,
       senha,
       active,
-      email
+      email,
     });
 
     res.json({
       success: true,
-      data: await Aluno
+      data: await Aluno,
     });
-  }
+  },
 };

@@ -7,7 +7,12 @@ module.exports = {
     // const User = req.mongoConnection.connectmodel("user", UserSchema);
 
     const User = await req.mongoConnection.model("User", UserSchema);
-    console.log(User, "dasdasdasa");
-    res.json({ success: true, data: await User.find() });
-  }
+    const result = await User.find();
+    console.log(result);
+    if (result) {
+      res.json({ success: true, data: result });
+    } else {
+      res.json({ message: "not found" });
+    }
+  },
 };

@@ -16,7 +16,7 @@ function verifyJWT(req, res, next) {
   console.log(token);
   if (!token)
     return res.status(401).send({ auth: false, message: "No token provided." });
-  jwt.verify(token, process.env.MYSECURITYTOKEN, function(err, decoded) {
+  jwt.verify(token, process.env.MYSECURITYTOKEN, function (err, decoded) {
     if (err)
       return res
         .status(500)
@@ -39,4 +39,5 @@ routes.get("/test", TesteController.FuncaoTeste);
 // routes.put("/os/:id", upload.single("thumbnail"), OsController.edit);
 
 routes.post("/api/aluno", verifyJWT, AlunoController.CreateAluno);
+routes.get("/api/aluno", verifyJWT, AlunoController.indexAluno);
 module.exports = routes;
