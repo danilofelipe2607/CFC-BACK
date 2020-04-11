@@ -23,7 +23,6 @@ module.exports = {
   },
 
   async store(req, res) {
-    console.log("aqui");
     const { email, name, senha, age, active, cpf, type } = req.body;
     let user = await User.findOne({ cpf });
 
@@ -31,6 +30,6 @@ module.exports = {
       user = await User.create({ email, name, senha, age, active, cpf, type });
     }
     return res.json(user);
-  }
+  },
 };
 // export const sentinela = { token: "2123123", tenant: "tenant2" };

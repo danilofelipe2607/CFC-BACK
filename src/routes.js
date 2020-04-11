@@ -13,7 +13,7 @@ function verifyJWT(req, res, next) {
   const token = req.headers["authorization"]
     ? req.headers["authorization"].split(" ").pop()
     : null;
-  console.log(token);
+
   if (!token)
     return res.status(401).send({ auth: false, message: "No token provided." });
   jwt.verify(token, process.env.MYSECURITYTOKEN, function (err, decoded) {
@@ -40,4 +40,5 @@ routes.get("/test", TesteController.FuncaoTeste);
 
 routes.post("/api/aluno", verifyJWT, AlunoController.CreateAluno);
 routes.get("/api/aluno", verifyJWT, AlunoController.indexAluno);
+routes.delete("/api/aluno/:id", verifyJWT, AlunoController.deleteAluno);
 module.exports = routes;

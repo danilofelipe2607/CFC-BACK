@@ -7,13 +7,12 @@ module.exports = {
   async indexAluno(req, res) {
     const Aluno = await req.mongoConnection.model("Aluno", AlunoSchema);
     const result = await Aluno.find();
-
     if (result) {
-      res.json(result);
+      return res.json(result);
     }
     res.json({ message: "not found" });
   },
-  //   //crea,te post
+  //   //create post
   async CreateAluno(req, res) {
     const {
       nome,
@@ -53,5 +52,20 @@ module.exports = {
       success: true,
       data: await Aluno,
     });
+  },
+
+  ///delete aluno
+
+  async deleteAluno(req, res) {
+    const { id } = req.params;
+    const Aluno = await req.mongoConnection.model("Aluno", AlunoSchema);
+    await Aluno.deleteOne({ id: id });
+
+    const novoRetorno = await Aluno.find();
+
+    if (novoRetorno) {
+      return res.json(novoRetorno);
+    }
+    res.json({ message: "not found" });
   },
 };
