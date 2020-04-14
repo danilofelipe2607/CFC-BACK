@@ -7,7 +7,7 @@ module.exports = new mongoose.Schema(
     nome: String,
     cpf: Number,
     rg: String,
-    DataNascimento: Number,
+    dataNascimento: String,
     endereco: String,
     cidade: String,
     estado: String,
@@ -17,7 +17,7 @@ module.exports = new mongoose.Schema(
     celular: String,
     senha: String,
     active: Boolean,
-    email: String
+    email: String,
   },
   { collection: "aluno" }
 );

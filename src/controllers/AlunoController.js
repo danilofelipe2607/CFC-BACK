@@ -18,7 +18,7 @@ module.exports = {
       nome,
       cpf,
       rg,
-      DataNascimento,
+      dataNascimento,
       endereco,
       cidade,
       estado,
@@ -43,7 +43,7 @@ module.exports = {
         nome,
         cpf,
         rg,
-        DataNascimento,
+        dataNascimento,
         endereco,
         cidade,
         estado,
@@ -76,5 +76,37 @@ module.exports = {
       return res.json(novoRetorno);
     }
     res.json({ message: "not found" });
+  },
+
+  async indexAlunoById(req, res) {
+    const { id } = req.params;
+    const Aluno = await req.mongoConnection.model("Aluno", AlunoSchema);
+    return res.json(await Aluno.find({ id: id }));
+  },
+  async updateAluno(req, res) {
+    const { id } = req.params;
+    const {
+      nome,
+      cpf,
+      rg,
+      dataNascimento,
+      endereco,
+      cidade,
+      estado,
+      setor,
+      type,
+      telefone,
+      celular,
+      senha,
+      active,
+      email,
+    } = req.body;
+    console.log(active, "active");
+    console.log(nome, "nome");
+    const Aluno = await req.mongoConnection.model("Aluno", AlunoSchema);
+
+    await Aluno.findByIdAndUpdate(id, req.body, { new: true });
+    const alunoAtualizado = await Aluno.find();
+    return res.json(alunoAtualizado);
   },
 };

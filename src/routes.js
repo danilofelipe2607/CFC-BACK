@@ -38,7 +38,10 @@ routes.get("/test", TesteController.FuncaoTeste);
 // routes.post("/osfiltro", OsController.getFiltro);
 // routes.put("/os/:id", upload.single("thumbnail"), OsController.edit);
 
+//alunos
 routes.post("/api/aluno", verifyJWT, AlunoController.CreateAluno);
+routes.put("/api/aluno/:id", verifyJWT, AlunoController.updateAluno);
 routes.get("/api/aluno", verifyJWT, AlunoController.indexAluno);
 routes.delete("/api/aluno/:id", verifyJWT, AlunoController.deleteAluno);
+routes.get("/api/aluno/:id", verifyJWT, AlunoController.indexAlunoById);
 module.exports = routes;
